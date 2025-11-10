@@ -1,0 +1,10 @@
+//
+//  Secerts-Example.xcconfig
+//  Receipt Finder
+//
+//  Created by Rajahiresh Kalva on 11/9/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+OPENAI_API_KEY = REPLACE_WITH_YOUR_KEY

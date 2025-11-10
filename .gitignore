@@ -1,0 +1,19 @@
+# macOS system files
+.DS_Store
+
+# Xcode build folders
+build/
+DerivedData/
+
+# Xcode workspace files (optional)
+*.xcworkspace
+
+# Xcode project user settings
+*.xcuserdata
+
+# Swift Package Manager
+/.build/
+
+# Secrets
+# Ignore the real API key file
+Secrets.xcconfig
