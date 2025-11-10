@@ -15,7 +15,7 @@ struct DetailsView: View {
     @State private var extractedInfo: [String: Any]?
     @State private var isLoading = false
     
-    private let chatGPT = ChatGPTService() // assumes you implemented earlier
+    private let service = OpenAIService() // assumes you implemented earlier
     
     var body: some View {
         ScrollView {
@@ -90,7 +90,7 @@ struct DetailsView: View {
         guard !recognizedText.isEmpty else { return }
         
         isLoading = true
-        chatGPT.extractReceiptInfo(from: recognizedText) { result in
+        service.extractReceiptInfo(from: recognizedText) { result in
             DispatchQueue.main.async {
                 self.extractedInfo = result
                 self.isLoading = false

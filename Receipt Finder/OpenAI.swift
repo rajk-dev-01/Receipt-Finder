@@ -1,5 +1,5 @@
 //
-//  Chatgpt.swift
+//  OpenAI.swift
 //  Receipt Finder
 //
 //  Created by Rajahiresh Kalva on 10/2/25.
@@ -8,24 +8,38 @@
 import Foundation
 import SwiftUI
 
-class ChatGPTService {
-    private let apiKey = "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 " // 🔑 keep this safe
+class OpenAIService {
+    // ✅ Read API key securely from Info.plist
+    private let apiKey: String = {
+        if let key = Bundle.main.object(forInfoDictionaryKey: "OPENAI_API_KEY") as? String {
+            return key
+        } else {
+            print("❌ OpenAI API key not found in Info.plist")
+            return ""
+        }
+    }()
     
     func extractReceiptInfo(from text: String, completion: @escaping ([String: Any]?) -> Void) {
+        guard !apiKey.isEmpty else {
+            print("❌ Missing OpenAI API key. Please check Info.plist and Secrets.xcconfig")
+            completion(nil)
+            return
+        }
+        
         let url = URL(string: "https://api.openai.com/v1/chat/completions")!
         
         let prompt = """
         You are a receipt parser. Extract the following fields from this text:
         - Store Name
-        - Name(Customer Name only if not available mention NOT AVAILABLE)
+        - Name (Customer Name only if not available mention NOT AVAILABLE)
         - Date
         - Total Amount
         - Address
         - Payment Method
         - Phone Number
         - Receipt Id
-        - Tracking Numbers(numbers used to track packages available only for package receipts if not available mention NOT AVAILABLE)
-        Return them strictly as JSON with keys: storeName, date, totalAmount, address, paymentMethod, name, phoneNumber, receiptId , tracking.
+        - Tracking Numbers (numbers used to track packages available only for package receipts, if not available mention NOT AVAILABLE)
+        Return them strictly as JSON with keys: storeName, date, totalAmount, address, paymentMethod, name, phoneNumber, receiptId, tracking.
         No extra text, no explanation.
 
         Receipt text:
@@ -69,7 +83,6 @@ class ChatGPTService {
                         return
                     }
                 }
-                
                 completion(nil)
             }
         }.resume()
