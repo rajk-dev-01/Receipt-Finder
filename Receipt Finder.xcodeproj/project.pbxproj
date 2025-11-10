@@ -42,9 +42,22 @@
 		56A631E32E395CFA004FCC99 /* Receipt FinderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Receipt FinderUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		567172322EC17AB9009E3776 /* Exceptions for "Receipt Finder" folder in "Receipt Finder" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Secrets.xcconfig,
+			);
+			target = 56A631CA2E395CF9004FCC99 /* Receipt Finder */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		56A631CD2E395CF9004FCC99 /* Receipt Finder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				567172322EC17AB9009E3776 /* Exceptions for "Receipt Finder" folder in "Receipt Finder" target */,
+			);
 			path = "Receipt Finder";
 			sourceTree = "<group>";
 		};
