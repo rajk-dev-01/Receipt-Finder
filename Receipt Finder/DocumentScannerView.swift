@@ -55,39 +55,20 @@ struct DocumentScannerView: UIViewControllerRepresentable {
             
             // ✅ Run OCR on first page (or loop if multi-page)
             DispatchQueue.global(qos: .userInitiated).async {
-                var recognizedText = ""
-                if let firstImage = images.first {
-                    recognizedText = self.performOCR(on: firstImage)
+                guard let firstImage = images.first else {
+                    DispatchQueue.main.async {
+                        self.parent.onScanComplete(images, "❌ No image found for OCR")
+                    }
+                    return
                 }
                 
-                // Send results back to parent
-                DispatchQueue.main.async {
-                    self.parent.onScanComplete(images, recognizedText)
+                // ✅ Use the shared OCRHelper instead of inline OCR logic
+                OCRHelper.extractText(from: firstImage) { recognizedText in
+                    DispatchQueue.main.async {
+                        self.parent.onScanComplete(images, recognizedText)
+                    }
                 }
             }
-        }
-        
-        // MARK: - OCR (Background Thread)
-        private func performOCR(on image: UIImage) -> String {
-            guard let cgImage = image.cgImage else {
-                return "❌ Failed to convert UIImage to CGImage"
-            }
-            
-            let request = VNRecognizeTextRequest()
-            request.recognitionLevel = .accurate
-            request.usesLanguageCorrection = true
-            
-            let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-            do {
-                try handler.perform([request])
-            } catch {
-                print("❌ OCR failed: \(error.localizedDescription)")
-                return ""
-            }
-            
-            let textResults = request.results as? [VNRecognizedTextObservation] ?? []
-            return textResults.compactMap { $0.topCandidates(1).first?.string }.joined(separator: "\n")
         }
     }
 }
-

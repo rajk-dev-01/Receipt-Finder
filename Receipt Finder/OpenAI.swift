@@ -9,23 +9,18 @@ import Foundation
 import SwiftUI
 
 class OpenAIService {
-    // ✅ Read API key securely from Info.plist
+    // ✅ Securely read API key from Info.plist
     private let apiKey: String = {
-        if let key = Bundle.main.object(forInfoDictionaryKey: "OPENAI_API_KEY") as? String {
-            return key
-        } else {
-            print("❌ OpenAI API key not found in Info.plist")
-            return ""
+        guard let infoDictionary = Bundle.main.infoDictionary,
+              let key = infoDictionary["OPENAI_API_KEY"] as? String,
+              !key.isEmpty else {
+            fatalError("❌ Missing OpenAI API key. Please add 'OPENAI_API_KEY' to Info.plist.")
         }
+        return key
     }()
     
+    /// Sends receipt text to OpenAI and returns parsed fields as a dictionary
     func extractReceiptInfo(from text: String, completion: @escaping ([String: Any]?) -> Void) {
-        guard !apiKey.isEmpty else {
-            print("❌ Missing OpenAI API key. Please check Info.plist and Secrets.xcconfig")
-            completion(nil)
-            return
-        }
-        
         let url = URL(string: "https://api.openai.com/v1/chat/completions")!
         
         let prompt = """
@@ -59,30 +54,43 @@ class OpenAIService {
         request.httpMethod = "POST"
         request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        } catch {
+            print("❌ Failed to serialize request body: \(error)")
+            completion(nil)
+            return
+        }
+        
+        // 🔄 Network call
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
+                print("❌ OpenAI API error: \(error?.localizedDescription ?? "Unknown error")")
                 completion(nil)
                 return
             }
             
-            if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let choices = json["choices"] as? [[String: Any]],
-               let message = choices.first?["message"] as? [String: Any],
-               let content = message["content"] as? String {
-                
-                // ✅ Extract JSON only (between first { and last })
-                if let start = content.firstIndex(of: "{"),
-                   let end = content.lastIndex(of: "}") {
-                    let jsonString = String(content[start...end])
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let choices = json["choices"] as? [[String: Any]],
+                   let message = choices.first?["message"] as? [String: Any],
+                   let content = message["content"] as? String {
                     
-                    if let contentData = jsonString.data(using: .utf8),
-                       let parsed = try? JSONSerialization.jsonObject(with: contentData) as? [String: Any] {
-                        completion(parsed)
-                        return
+                    // Extract pure JSON from model response
+                    if let start = content.firstIndex(of: "{"),
+                       let end = content.lastIndex(of: "}") {
+                        let jsonString = String(content[start...end])
+                        if let contentData = jsonString.data(using: .utf8),
+                           let parsed = try? JSONSerialization.jsonObject(with: contentData) as? [String: Any] {
+                            completion(parsed)
+                            return
+                        }
                     }
                 }
+                completion(nil)
+            } catch {
+                print("❌ JSON parsing error: \(error)")
                 completion(nil)
             }
         }.resume()

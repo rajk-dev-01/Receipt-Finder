@@ -33,7 +33,6 @@
 
 /* Begin PBXFileReference section */
 		562ABD512E46A83C0044676F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
-		567172332EC18155009E3776 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		5694A6302E4D0B8200F86D87 /* ReceiptFinderApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReceiptFinderApp.xcdatamodel; sourceTree = "<group>"; };
 		5694A6322E4D220A00F86D87 /* ReceiptFinderAppProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptFinderAppProperties.swift; sourceTree = "<group>"; };
 		5694A6462E4D2A8200F86D87 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -41,6 +40,7 @@
 		56A631CB2E395CF9004FCC99 /* Receipt Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Receipt Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56A631D92E395CFA004FCC99 /* Receipt FinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Receipt FinderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56A631E32E395CFA004FCC99 /* Receipt FinderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Receipt FinderUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		56DD8A662EC19A690014F997 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -99,8 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				5694A6482E4E302D00F86D87 /* UIImageTransformer.swift */,
+				56DD8A662EC19A690014F997 /* Secrets.xcconfig */,
 				5694A62F2E4D0B8200F86D87 /* ReceiptFinderApp.xcdatamodeld */,
-				567172332EC18155009E3776 /* Secrets.xcconfig */,
 				5694A6322E4D220A00F86D87 /* ReceiptFinderAppProperties.swift */,
 				5694A6462E4D2A8200F86D87 /* Persistence.swift */,
 				56A631CD2E395CF9004FCC99 /* Receipt Finder */,
@@ -307,8 +307,7 @@
 /* Begin XCBuildConfiguration section */
 		56A631EB2E395CFA004FCC99 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 56A631CD2E395CF9004FCC99 /* Receipt Finder */;
-			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
+			baseConfigurationReference = 56DD8A662EC19A690014F997 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -370,8 +369,7 @@
 		};
 		56A631EC2E395CFA004FCC99 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 56A631CD2E395CF9004FCC99 /* Receipt Finder */;
-			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
+			baseConfigurationReference = 56DD8A662EC19A690014F997 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -425,8 +423,7 @@
 		};
 		56A631EE2E395CFA004FCC99 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 56A631CD2E395CF9004FCC99 /* Receipt Finder */;
-			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
+			baseConfigurationReference = 56DD8A662EC19A690014F997 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -467,8 +464,7 @@
 		};
 		56A631EF2E395CFA004FCC99 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 56A631CD2E395CF9004FCC99 /* Receipt Finder */;
-			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
+			baseConfigurationReference = 56DD8A662EC19A690014F997 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -509,8 +505,7 @@
 		};
 		56A631F12E395CFA004FCC99 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 56A631CD2E395CF9004FCC99 /* Receipt Finder */;
-			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
+			baseConfigurationReference = 56DD8A662EC19A690014F997 /* Secrets.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -533,8 +528,7 @@
 		};
 		56A631F22E395CFA004FCC99 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 56A631CD2E395CF9004FCC99 /* Receipt Finder */;
-			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
+			baseConfigurationReference = 56DD8A662EC19A690014F997 /* Secrets.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -557,8 +551,7 @@
 		};
 		56A631F42E395CFA004FCC99 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 56A631CD2E395CF9004FCC99 /* Receipt Finder */;
-			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
+			baseConfigurationReference = 56DD8A662EC19A690014F997 /* Secrets.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -580,8 +573,7 @@
 		};
 		56A631F52E395CFA004FCC99 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 56A631CD2E395CF9004FCC99 /* Receipt Finder */;
-			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
+			baseConfigurationReference = 56DD8A662EC19A690014F997 /* Secrets.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

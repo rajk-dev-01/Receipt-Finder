@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import PhotosUI
 
 struct ResultView: View {
     @Binding var fileName: String
@@ -15,8 +16,9 @@ struct ResultView: View {
     @State var selectedItem: Item?
     
     @State private var showScanner = false
+    @State private var showPhotoPicker = false
     @State private var addNew = false
-    @State private var recognizedText = ""   // raw OCR text
+    @State private var recognizedText = ""
     @State private var navigateToSaveAs = false
     @State private var navigateToDetails = false
     @State private var isProcessing = false
@@ -60,7 +62,7 @@ struct ResultView: View {
                         showScanner = true
                     }
                     Button("Add from Library") {
-                        // TODO: implement photo picker
+                        showPhotoPicker = true
                     }
                     Button("Cancel", role: .cancel) { }
                 }
@@ -77,17 +79,17 @@ struct ResultView: View {
         }
         .searchable(text: $searchText, prompt: "Search")
         
-        // ✅ Navigation to Details (CoreData Item)
+        // Navigation to Details
         .navigationDestination(isPresented: $navigateToDetails) {
             if let item = selectedItem {
                 DetailsView(
                     item: item,
-                    recognizedText: recognizedText // pass OCR text here
+                    recognizedText: recognizedText
                 )
             }
         }
         
-        // ✅ Navigation to SaveAs
+        // Navigation to SaveAs
         .navigationDestination(isPresented: $navigateToSaveAs) {
             SaveAsView(
                 fileName: "",
@@ -97,18 +99,31 @@ struct ResultView: View {
             .environment(\.managedObjectContext, viewContext)
         }
         
-        // ✅ Scanner
+        // Scanner (Camera)
         .fullScreenCover(isPresented: $showScanner) {
             DocumentScannerView { images, text in
                 isProcessing = true
-                self.selectedImage = images.first
+                selectedImage = images.first
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.recognizedText = text
-                    self.isProcessing = false
-                    self.navigateToSaveAs = true
+                    recognizedText = text
+                    isProcessing = false
+                    navigateToSaveAs = true
                 }
             }
             .ignoresSafeArea(.all)
+        }
+        
+        // Photo Picker (Gallery)
+        .sheet(isPresented: $showPhotoPicker) {
+            PhotoPicker(selectedImage: $selectedImage) { image in
+                guard let image = image else { return }
+                isProcessing = true
+                OCRHelper.extractText(from: image) { text in
+                    recognizedText = text
+                    isProcessing = false
+                    navigateToSaveAs = true
+                }
+            }
         }
     }
     
@@ -130,4 +145,5 @@ struct ResultView: View {
         }
     }
 }
+
 
